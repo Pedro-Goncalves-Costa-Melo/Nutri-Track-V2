@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Paciente{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Editar Paciente</h2>
+    <form method="POST" action="{{ url_for('editar_paciente', id=paciente.id) }}">
+        <div class="mb-3">
+            <label class="form-label">Nome:</label>
+            <input type="text" class="form-control" name="nome" value="{{ paciente.nome }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Idade:</label>
+            <input type="number" class="form-control" name="idade" value="{{ paciente.idade }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Altura (m):</label>
+            <input type="text" class="form-control" name="altura" value="{{ paciente.altura }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Peso (kg):</label>
+            <input type="text" class="form-control" name="peso" value="{{ paciente.peso }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Dieta:</label>
+            <select class="form-control" name="dieta_id">
+                <option value="">Nenhuma</option>
+                {% for dieta in dietas %}
+                <option value="{{ dieta.id }}" {% if paciente.dieta_id == dieta.id %}selected{% endif %}>
+                    {{ dieta.nome }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+        <a href="{{ url_for('listar_pacientes') }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

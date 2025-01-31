@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Dietas{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Lista de Dietas</h2>
+    <a href="{{ url_for('nova_dieta') }}" class="btn btn-success mb-3">Adicionar Dieta</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dieta in dietas %}
+            <tr>
+                <td>{{ dieta.id }}</td>
+                <td>{{ dieta.nome }}</td>
+                <td>{{ dieta.descricao }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

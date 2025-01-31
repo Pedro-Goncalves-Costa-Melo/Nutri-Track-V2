@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Dashboard</h2>
+    <p>Aqui você pode visualizar algumas estatísticas sobre os pacientes e dietas.</p>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Total de Pacientes: {{ total_pacientes }}</h4>
+        </div>
+        <div class="col-md-6">
+            <h4>Total de Dietas: {{ total_dietas }}</h4>
+        </div>
+    </div>
+
+    <canvas id="graficoPacientes"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var ctx = document.getElementById('graficoPacientes').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ dietas_labels | tojson }},
+            datasets: [{
+                label: 'Número de Pacientes por Dieta',
+                data: {{ dietas_data | tojson }},
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
