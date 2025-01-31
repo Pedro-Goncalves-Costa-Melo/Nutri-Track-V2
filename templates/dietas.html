@@ -12,6 +12,8 @@
                 <th>ID</th>
                 <th>Nome</th>
                 <th>Descrição</th>
+                <th>Idade Mínima</th>  
+                <th>Idade Máxima</th>  
                 <th>Ações</th>
             </tr>
         </thead>
@@ -21,6 +23,8 @@
                 <td>{{ dieta.id }}</td>
                 <td>{{ dieta.nome }}</td>
                 <td>{{ dieta.descricao }}</td>
+                <td>{{ dieta.idade_minima }}</td>  
+                <td>{{ dieta.idade_maxima }}</td>  
                 <td>
                     <a href="{{ url_for('editar_dieta', id=dieta.id) }}" class="btn btn-warning btn-sm">Editar</a>
                     <a href="{{ url_for('deletar_dieta', id=dieta.id) }}" class="btn btn-danger btn-sm delete-btn">Excluir</a>

@@ -1,0 +1,24 @@
+{
+  "name": "nutri-track-v2",
+  "version": "1.0.0",
+  "description": "trabalho de engenharia de software Versão enxuta do funcionamento",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pedro-Goncalves-Costa-Melo/Nutri-Track-V2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Pedro-Goncalves-Costa-Melo/Nutri-Track-V2/issues"
+  },
+  "homepage": "https://github.com/Pedro-Goncalves-Costa-Melo/Nutri-Track-V2#readme",
+  "devDependencies": {
+    "cypress": "^14.0.1"
+  }
+}

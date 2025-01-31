@@ -37,15 +37,23 @@ def buscar_dieta(id):
     db.close()
     return dieta
 
-# Atualizar dieta
-def atualizar_dieta(id, nome, descricao):
+# Atualizar dieta (corrigido para incluir idade_minima e idade_maxima)
+def atualizar_dieta(id, nome, descricao, idade_minima, idade_maxima):
     db = get_db_connection()
     cursor = db.cursor()
-    query = "UPDATE dietas SET nome=%s, descricao=%s WHERE id=%s"
-    cursor.execute(query, (nome, descricao, id))
+    
+    query = """
+        UPDATE dietas 
+        SET nome=%s, descricao=%s, idade_minima=%s, idade_maxima=%s 
+        WHERE id=%s
+    """
+    cursor.execute(query, (nome, descricao, idade_minima, idade_maxima, id))
+    
     db.commit()
     db.close()
-    return buscar_dieta(id)
+    
+    return buscar_dieta(id)  # Retorna a dieta atualizada
+
 
 # Deletar dieta
 def deletar_dieta(id):

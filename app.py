@@ -85,26 +85,29 @@ def nova_dieta():
     if request.method == 'POST':
         data = {
             "nome": request.form['nome'],
-            "descricao": request.form['descricao']
+            "descricao": request.form['descricao'],
+            "idade_minima": request.form['idade_minima'], 
+            "idade_maxima": request.form['idade_maxima']   
         }
         requests.post('http://127.0.0.1:5000/api/dietas', json=data)
         return redirect(url_for('listar_dietas'))
 
     return render_template('nova_dieta.html')
 
-# 🔹 Editar Dieta (Interface Web)
+# 🔹 Atualizar Dieta (Interface Web)
 @app.route('/dietas/editar/<int:id>', methods=['GET', 'POST'])
 def editar_dieta(id):
-    dieta = requests.get(f'http://127.0.0.1:5000/api/dietas/{id}').json()
-
     if request.method == 'POST':
         data = {
             "nome": request.form['nome'],
-            "descricao": request.form['descricao']
+            "descricao": request.form['descricao'],
+            "idade_minima": request.form['idade_minima'],
+            "idade_maxima": request.form['idade_maxima']
         }
         requests.put(f'http://127.0.0.1:5000/api/dietas/{id}', json=data)
         return redirect(url_for('listar_dietas'))
 
+    dieta = requests.get(f'http://127.0.0.1:5000/api/dietas/{id}').json()
     return render_template('editar_dieta.html', dieta=dieta)
 
 # 🔹 Deletar Dieta (Interface Web)

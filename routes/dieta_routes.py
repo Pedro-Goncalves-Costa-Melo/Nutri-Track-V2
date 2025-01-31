@@ -21,7 +21,7 @@ def get_dieta(id):
 @dieta_bp.route('/dietas/<int:id>', methods=['PUT'])
 def update_dieta(id):
     data = request.json
-    dieta = atualizar_dieta(id, data['nome'], data['descricao'])
+    dieta = atualizar_dieta(id, data['nome'], data['descricao'], data['idade_minima'], data['idade_maxima'])
     return jsonify(dieta) if dieta else ('Dieta não encontrada', 404)
 
 @dieta_bp.route('/dietas/<int:id>', methods=['DELETE'])
