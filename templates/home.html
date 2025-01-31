@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Página Inicial{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="display-4">Bem-vindo ao NutriTrack!</h1>
+    <p class="lead">Gerencie seus pacientes e suas dietas de forma simples e rápida.</p>
+    <a href="{{ url_for('listar_pacientes') }}" class="btn btn-primary btn-lg">Ver Pacientes</a>
+    <a href="{{ url_for('listar_dietas') }}" class="btn btn-secondary btn-lg">Ver Dietas</a>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Novo Paciente{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Adicionar Paciente</h2>
+    <form method="POST" action="{{ url_for('novo_paciente') }}">
+        <div class="mb-3">
+            <label class="form-label">Nome:</label>
+            <input type="text" class="form-control" name="nome" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Idade:</label>
+            <input type="number" class="form-control" name="idade" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Altura (m):</label>
+            <input type="text" class="form-control" name="altura" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Peso (kg):</label>
+            <input type="text" class="form-control" name="peso" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Dieta (Opcional):</label>
+            <select class="form-control" name="dieta_id">
+                <option value="">Nenhuma</option>
+                {% for dieta in dietas %}
+                <option value="{{ dieta.id }}">{{ dieta.nome }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </form>
+</div>
+{% endblock %}
