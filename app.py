@@ -92,40 +92,77 @@ def nova_dieta():
 
     return render_template('nova_dieta.html')
 
+# 🔹 Editar Dieta (Interface Web)
+@app.route('/dietas/editar/<int:id>', methods=['GET', 'POST'])
+def editar_dieta(id):
+    dieta = requests.get(f'http://127.0.0.1:5000/api/dietas/{id}').json()
+
+    if request.method == 'POST':
+        data = {
+            "nome": request.form['nome'],
+            "descricao": request.form['descricao']
+        }
+        requests.put(f'http://127.0.0.1:5000/api/dietas/{id}', json=data)
+        return redirect(url_for('listar_dietas'))
+
+    return render_template('editar_dieta.html', dieta=dieta)
+
+# 🔹 Deletar Dieta (Interface Web)
+@app.route('/dietas/deletar/<int:id>')
+def deletar_dieta(id):
+    requests.delete(f'http://127.0.0.1:5000/api/dietas/{id}')
+    return redirect(url_for('listar_dietas'))
+
+
 # 🔹 Dashboard com Estatísticas
 @app.route('/dashboard')
 def dashboard():
+    # Buscar dados da API
     pacientes = requests.get('http://127.0.0.1:5000/api/pacientes').json()
     dietas = requests.get('http://127.0.0.1:5000/api/dietas').json()
 
+    # Total de pacientes e dietas
     total_pacientes = len(pacientes)
     total_dietas = len(dietas)
 
-    # Criar estatísticas de pacientes por dieta
-    dietas_labels = []
-    dietas_data = []
-    dieta_dict = {dieta['id']: dieta['nome'] for dieta in dietas}
+    # Cálculo de médias (convertendo para números para evitar erros)
+    if total_pacientes > 0:
+        media_idade = sum(int(p['idade']) for p in pacientes) / total_pacientes
+        media_altura = sum(float(p['altura']) for p in pacientes) / total_pacientes
+        media_peso = sum(float(p['peso']) for p in pacientes) / total_pacientes
+    else:
+        media_idade = media_altura = media_peso = 0
 
-    contagem_dietas = {}
-
+    # 🔹 Contagem de pacientes por dieta
+    pacientes_por_dieta = {}
     for paciente in pacientes:
-        dieta_id = paciente['dieta_id']
-        if dieta_id:
-            nome_dieta = dieta_dict.get(dieta_id, "Desconhecida")
-            if nome_dieta in contagem_dietas:
-                contagem_dietas[nome_dieta] += 1
-            else:
-                contagem_dietas[nome_dieta] = 1
+        nome_dieta = paciente['nome_dieta'] if paciente['nome_dieta'] else 'Sem dieta'
+        pacientes_por_dieta[nome_dieta] = pacientes_por_dieta.get(nome_dieta, 0) + 1
 
-    for nome, qtd in contagem_dietas.items():
-        dietas_labels.append(nome)
-        dietas_data.append(qtd)
+    # 🔹 Encontrar pacientes com dietas incompatíveis com sua idade
+    pacientes_incompativeis = []
+    for paciente in pacientes:
+        if paciente['nome_dieta']:  # Se o paciente tem uma dieta associada
+            dieta = next((d for d in dietas if d['nome'] == paciente['nome_dieta']), None)
+            if dieta and (paciente['idade'] < dieta['idade_minima'] or paciente['idade'] > dieta['idade_maxima']):
+                pacientes_incompativeis.append({
+                    "nome": paciente['nome'],
+                    "idade": paciente['idade'],
+                    "dieta": paciente['nome_dieta'],
+                    "idade_min": dieta['idade_minima'],
+                    "idade_max": dieta['idade_maxima']
+                })
 
     return render_template('dashboard.html', 
                            total_pacientes=total_pacientes, 
-                           total_dietas=total_dietas,
-                           dietas_labels=dietas_labels,
-                           dietas_data=dietas_data)
+                           total_dietas=total_dietas, 
+                           media_idade=round(media_idade, 1),
+                           media_altura=round(media_altura, 2),
+                           media_peso=round(media_peso, 1),
+                           pacientes_por_dieta=pacientes_por_dieta,
+                           pacientes_incompativeis=pacientes_incompativeis,
+                           pacientes=pacientes[:5])  # Exibir últimos 5 pacientes cadastrados
+
 
 
 if __name__ == '__main__':

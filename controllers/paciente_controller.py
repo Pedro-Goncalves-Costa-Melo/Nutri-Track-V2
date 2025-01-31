@@ -15,8 +15,17 @@ def criar_paciente(nome, idade, altura, peso, dieta_id):
 def listar_pacientes():
     db = get_db_connection()
     cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM pacientes")
+
+    query = """
+    SELECT pacientes.id, pacientes.nome, pacientes.idade, pacientes.altura, pacientes.peso, 
+           dietas.nome AS nome_dieta
+    FROM pacientes
+    LEFT JOIN dietas ON pacientes.dieta_id = dietas.id
+    """
+    
+    cursor.execute(query)
     pacientes = cursor.fetchall()
+    
     db.close()
     return pacientes
 

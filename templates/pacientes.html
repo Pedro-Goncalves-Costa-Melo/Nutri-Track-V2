@@ -26,10 +26,10 @@
                 <td>{{ paciente.idade }}</td>
                 <td>{{ paciente.altura }}</td>
                 <td>{{ paciente.peso }}</td>
-                <td>{{ paciente.dieta_id if paciente.dieta_id else 'Nenhuma' }}</td>
+                <td>{{ paciente.nome_dieta if paciente.nome_dieta else 'Nenhuma' }}</td>
                 <td>
                     <a href="{{ url_for('editar_paciente', id=paciente.id) }}" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="{{ url_for('deletar_paciente', id=paciente.id) }}" class="btn btn-danger btn-sm">Excluir</a>
+                    <a href="{{ url_for('deletar_paciente', id=paciente.id) }}" class="btn btn-danger btn-sm delete-btn">Excluir</a>
                 </td>
             </tr>
             {% endfor %}

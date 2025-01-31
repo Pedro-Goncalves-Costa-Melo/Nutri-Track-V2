@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}Nova Dieta{% endblock %}
+{% block title %}Editar Dieta{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h2>Adicionar Nova Dieta</h2>
-    <form method="POST" action="{{ url_for('nova_dieta') }}">
+    <h2>Editar Dieta</h2>
+    <form method="POST" action="{{ url_for('editar_dieta', id=dieta.id) }}">
         <div class="mb-3">
-            <label class="form-label">Nome:</label>
-            <input type="text" class="form-control" name="nome" required>
+            <label class="form-label">Nome da Dieta:</label>
+            <input type="text" class="form-control" name="nome" value="{{ dieta.nome }}" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Descrição:</label>
-            <textarea class="form-control" name="descricao" rows="3" required></textarea>
+            <textarea class="form-control" name="descricao" required>{{ dieta.descricao }}</textarea>
         </div>
         <div class="mb-3">
             <label class="form-label">Idade Mínima:</label>
@@ -22,7 +22,7 @@
             <label class="form-label">Idade Máxima:</label>
             <input type="number" class="form-control" name="idade_maxima" value="{{ dieta.idade_maxima if dieta else '' }}" required>
         </div>        
-        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
         <a href="{{ url_for('listar_dietas') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>

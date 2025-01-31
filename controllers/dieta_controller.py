@@ -1,22 +1,30 @@
 from flask import jsonify
 from database import get_db_connection
 
-# Criar uma dieta
-def criar_dieta(nome, descricao):
+# Criar uma nova dieta
+def criar_dieta(nome, descricao, idade_minima, idade_maxima):
     db = get_db_connection()
     cursor = db.cursor()
-    query = "INSERT INTO dietas (nome, descricao) VALUES (%s, %s)"
-    cursor.execute(query, (nome, descricao))
+
+    query = "INSERT INTO dietas (nome, descricao, idade_minima, idade_maxima) VALUES (%s, %s, %s, %s)"
+    cursor.execute(query, (nome, descricao, idade_minima, idade_maxima))
+
     db.commit()
     db.close()
-    return {"id": cursor.lastrowid, "nome": nome, "descricao": descricao}
 
-# Listar todas as dietas
+    return {"id": cursor.lastrowid, "nome": nome, "descricao": descricao, "idade_minima": idade_minima, "idade_maxima": idade_maxima}
+
+
+
+# Buscar todas as dietas
 def listar_dietas():
     db = get_db_connection()
     cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM dietas")
+
+    query = "SELECT * FROM dietas"
+    cursor.execute(query)
     dietas = cursor.fetchall()
+
     db.close()
     return dietas
 

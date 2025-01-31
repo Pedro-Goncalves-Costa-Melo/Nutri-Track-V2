@@ -10,3 +10,16 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    let deleteButtons = document.querySelectorAll(".delete-btn");
+
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", function (event) {
+            let confirmacao = confirm("Tem certeza que deseja excluir esta dieta?");
+            if (!confirmacao) {
+                event.preventDefault();
+            }
+        });
+    });
+});

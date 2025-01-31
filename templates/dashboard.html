@@ -4,44 +4,109 @@
 
 {% block content %}
 <div class="container">
-    <h2>Dashboard</h2>
-    <p>Aqui você pode visualizar algumas estatísticas sobre os pacientes e dietas.</p>
+    <h2>Dashboard Nutricional</h2>
 
+    <!-- Cards de Informações -->
     <div class="row">
-        <div class="col-md-6">
-            <h4>Total de Pacientes: {{ total_pacientes }}</h4>
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Total de Pacientes</div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ total_pacientes }}</h4>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6">
-            <h4>Total de Dietas: {{ total_dietas }}</h4>
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Total de Dietas</div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ total_dietas }}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">Média de Idade</div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ media_idade }} anos</h4>
+                </div>
+            </div>
         </div>
     </div>
 
-    <canvas id="graficoPacientes"></canvas>
+    <!-- Médias -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card bg-light mb-3">
+                <div class="card-header">Média de Altura</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ media_altura }} m</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card bg-light mb-3">
+                <div class="card-header">Média de Peso</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ media_peso }} kg</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráfico de Distribuição de Dietas -->
+    <h3>Distribuição de Pacientes por Dieta</h3>
+    <canvas id="graficoDietas"></canvas>
+
+    <!-- 🔴 ALERTA: Pacientes em Dietas Incompatíveis -->
+    {% if pacientes_incompativeis %}
+    <h3 class="mt-4 text-danger">⚠ Pacientes em Dietas Incompatíveis</h3>
+    <table class="table table-bordered table-danger">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Idade</th>
+                <th>Dieta</th>
+                <th>Idade Recomendada</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for paciente in pacientes_incompativeis %}
+            <tr>
+                <td>{{ paciente.nome }}</td>
+                <td>{{ paciente.idade }}</td>
+                <td>{{ paciente.dieta }}</td>
+                <td>{{ paciente.idade_min }} - {{ paciente.idade_max }} anos</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
 </div>
 
+<!-- Importando Chart.js para o gráfico -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    var ctx = document.getElementById('graficoPacientes').getContext('2d');
-    var chart = new Chart(ctx, {
+    const ctx = document.getElementById('graficoDietas').getContext('2d');
+    const data = {
+        labels: {{ pacientes_por_dieta.keys() | list | tojson }},
+        datasets: [{
+            label: 'Pacientes por Dieta',
+            data: {{ pacientes_por_dieta.values() | list | tojson }},
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#FF9800', '#9C27B0'],
+        }]
+    };
+
+    new Chart(ctx, {
         type: 'bar',
-        data: {
-            labels: {{ dietas_labels | tojson }},
-            datasets: [{
-                label: 'Número de Pacientes por Dieta',
-                data: {{ dietas_data | tojson }},
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
+        data: data,
         options: {
             responsive: true,
-            scales: {
-                y: { beginAtZero: true }
+            plugins: {
+                legend: { display: false }
             }
         }
     });
-});
 </script>
 {% endblock %}

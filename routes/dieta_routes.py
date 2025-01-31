@@ -10,7 +10,7 @@ def get_dietas():
 @dieta_bp.route('/dietas', methods=['POST'])
 def add_dieta():
     data = request.json
-    nova_dieta = criar_dieta(data['nome'], data['descricao'])
+    nova_dieta = criar_dieta(data['nome'], data['descricao'], data['idade_minima'], data['idade_maxima'])
     return jsonify(nova_dieta), 201
 
 @dieta_bp.route('/dietas/<int:id>', methods=['GET'])
