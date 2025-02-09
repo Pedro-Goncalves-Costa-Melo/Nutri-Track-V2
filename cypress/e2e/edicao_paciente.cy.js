@@ -12,7 +12,7 @@ describe("Teste de Edição de Paciente", () => {
       const pesoInicial = "80";
       const dietaInicial = "Dieta Cetogênica";
       
-      const novaIdade = "35";
+      const novaIdade = "45";
       const novoPeso = "85";
   
       // Criar um novo paciente para edição

@@ -1,0 +1,14 @@
+{
+    "git.ignoreLimitWarning": true,
+    "sonarlint.connectedMode.servers": [
+        {
+            "serverId": "sonarqube-local",
+            "serverUrl": "http://localhost:9000",
+            "token": "SEU_NOVO_TOKEN_AQUI"
+        }
+    ],
+    "sonarlint.connectedMode.project": {
+        "connectionId": "http-localhost-9000-",
+        "projectKey": "nutritrack"
+    }
+}

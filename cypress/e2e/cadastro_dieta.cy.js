@@ -5,7 +5,7 @@ let descricaoDieta;
 let idadeMinima;
 let idadeMaxima;
 
-    //  beforeEach(() => {
+    // / beforeEach(() => {
     //    cy.visit("/dietas"); // Acessa a página de listagem de dietas
     //  });
 

@@ -37,9 +37,9 @@ describe("Teste de Cadastro de Paciente", () => {
       // Definição de dados únicos para o teste
       const nomePaciente = "Teste Cypress " + Date.now(); // Gera um nome único
       const idadePaciente = "25";
-      const alturaPaciente = "1.80";
+      const alturaPaciente = "2.00";
       const pesoPaciente = "75";
-      const dietaEscolhida = "Dieta Mediterrânea"; // Certifique-se de que existe essa dieta no banco
+      const dietaEscolhida = "Dieta Cetogênica"; // Certifique-se de que existe essa dieta no banco
   
       // Preenche os campos do formulário
       cy.get('input[name="nome"]').type(nomePaciente);

@@ -1,0 +1,6 @@
+projectKey=nutritrack
+serverUrl=http://localhost:9000
+serverVersion=25.2.0.102705
+dashboardUrl=http://localhost:9000/dashboard?id=nutritrack
+ceTaskId=2a70618b-ff83-4297-9312-a77d794b1b1a
+ceTaskUrl=http://localhost:9000/api/ce/task?id=2a70618b-ff83-4297-9312-a77d794b1b1a
